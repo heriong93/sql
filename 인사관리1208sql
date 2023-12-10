@@ -150,8 +150,8 @@ FROM dual;
 --ROUNDING반올림
 SELECT 
         ROUND(345.678) AS round1,
-        ROUND(345.678, 0) AS round2,
-        ROUND(345.678, 1) AS round3,
+        ROUND(345.678, 0) AS round2, 
+        ROUND(345.678, 1) AS round3, 
         ROUND(345.678, -1)  AS round4
 FROM dual;
 --TRUNCATE 절삭 
@@ -187,7 +187,7 @@ SELECT sysdate
 FROM dual;
 
 ---------날짜함수-----
-SELECT last_name, (SYSDATE- hire_date) /7 as weeks
+SELECT last_name, ROUND((SYSDATE- hire_date) /7) as weeks
 FROM employees
 WHERE department_id = 90;
 
@@ -233,7 +233,7 @@ FROM employees;
 
 --숫자에 to_char 함수 사용 
 SELECT 
-    TO_CHAR(salary, '$9,999.00') salary
+    TO_CHAR(salary, '$999,999.00') salary
 FROM employees;
 
 --문자를 숫자로 변환 -- 
@@ -281,23 +281,23 @@ SELECT last_name, job_id, salary,
         CASE job_id WHEN job_id= 'IT_PROG'  THEN 1.10*salary
                             WHEN job_id='ST_CLERK' THEN 1.15*salary
                             WHEN job_id='SA_REP'      THEN 1.20*salary
-                                                                        ELSE salary 
+                            ELSE salary 
         END "REVISED_SALARY"
 FROM employees;
 
 SELECT last_name, salary,
-        CASE   WHEN salary<5000 THEN 'Low'
+        CASE WHEN salary<5000 THEN 'Low'
                     WHEN salary<10000 THEN 'Medium'
                     WHEN salary<20000 THEN 'Good'
-                                                    ELSE 'Excellent'
+                    ELSE 'Excellent'
         END qualified_salary
 FROM employees;
 
 SELECT last_name, job_id, salary,
                 DECODE(job_id, 'IT_PROG',    1.10*salary, 
-                                            'ST_CLERK', 1.15*salary,
-                                            'SA_REP',     1.20*salary, 
-                                                                         salary)
+                               'ST_CLERK',   1.15*salary,
+                               'SA_REP',     1.20*salary, 
+                                                  salary)
                 REVISED_SALARY
 FROM employees;
 
@@ -317,5 +317,40 @@ WHERE department_id = 90;
 
 --연습문제 sql04.txt 
 --1)
-SELECT  last_name || ' earns ' || salary || 'but wants' || (3*salary)  AS INITCAP('dream salaries')
+SELECT  last_name ||' earns'||TO_CHAR(salary,'$999,999.00')||' but wants '|| TO_CHAR(3*salary,'$999,999.00')  AS "Dream Salaries."
 FROM employees;
+
+--2) 
+
+SELECT * 
+FROM employees;
+
+ALTER SESSION SET
+NLS_DATE_FORMAT = 'YYYY.MM.DD';
+SELECT last_name, hire_date, TO_CHAR(NEXT_DAY(ADD_MONTHS(hire_date,6),'월'),'YYYY.MM.DD DAY') AS REVIEW
+FROM employees;
+
+
+--3) 
+SELECT last_name, hire_date, TO_CHAR(hire_date,'day') AS DAY
+FROM employees
+ORDER BY TO_CHAR(hire_date-1,'d');
+
+--4) 
+SELECT last_name, NVL2(TO_CHAR(commission_pct), TO_CHAR(commission_pct), 'No Commission') 
+FROM employees;
+
+--5)
+SELECT last_name, job_id,
+    DECODE(job_id, 'AD_PRES' ,'A',
+                   'ST_MAN'  ,'B',
+                   'IT_PROG' ,'C',
+                   'SA_REP'  ,'D',
+                   'ST_CLERK','E',
+                              '0')
+        AS "COMM"
+FROM employees
+ORDER BY COMM;
+
+
+
