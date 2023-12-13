@@ -1143,7 +1143,7 @@ WHERE department_id in(SELECT department_id
 --4)부서 위치 ID(location_id)가 1700인 모든 사원의 이름, 부서 번호 및 업무 ID를 표시하시오.
 SELECT *
 FROM employees;
---잘못된 풀이 
+--ㅎㄹ 풀이 
 SELECT e.last_name, e.department_id, e.job_id
 FROM employees e,locations l
 WHERE l.location_id = (SELECT location_id
@@ -1176,7 +1176,444 @@ SELECT employee_id, last_name, salary
 FROM employees 
 WHERE salary >(SELECT AVG(salary)
                 FROM employees)
-AND last_name IN (SELECT last_name
+AND department_id IN (SELECT department_id
                   FROM employees
                   WHERE LOWER(last_name) LIKE '%u%');
-                  
+
+--제약조건 유형
+--NOT NULL / PRIMARY KEY 는 NULL 포함할 수 없음 
+--테이블에 제약조건 최대한 줄이는게 좋음 
+CREATE TABLE emp_test(
+        empid         NUMBER(5),
+        empname   VARCHAR2(10) NOT NULL,
+        duty            VARCHAR2(9),
+        sal               NUMBER(7,2),
+        bonus          NUMBER(7,2),
+        mgr             NUMBER(5),
+        hire_date   DATE,
+        deptid         NUMBER(2));
+--ORA-01400: cannot insert NULL into ("HR"."EMP_TEST"."EMPNAME")
+--EMPNAME NOT NULL 설정해놔서 에러 뜸 
+INSERT INTO emp_test (empid,empname)
+VALUES (10,NULL);
+--이렇게 값을 넣어줘야 정상적으로 작동함 
+INSERT INTO emp_test(empid, empname)
+VALUES (10,'YD');
+
+SELECT * 
+FROM emp_test;
+
+CREATE TABLE dept_test (
+        deptid              NUMBER(2),
+        dname             VARCHAR2(14),
+        loc                   VARCHAR2(13),
+                                UNIQUE(dname));
+                                
+INSERT INTO dept_test(deptid,dname)
+VALUES (10, NULL);
+
+INSERT INTO dept_test(deptid,dname)
+VALUES (20, 'YD');
+--오류: ORA-00001: unique constraint (HR.SYS_C007011) violated
+--이미 입력이 된 값을 다시 입력하려고 하니 UNIQUE값이 중복됨. 
+INSERT INTO dept_test(deptid,dname)
+VALUES (20, 'YD');
+
+drop table dept_test;
+--PRIMARY KEY = UNIQUE + NOT NULL
+CREATE TABLE dept_test (
+        deptid              NUMBER(2) PRIMARY KEY ,
+        dname              VARCHAR2(14),
+        loc                     VARCHAR2(13),
+                                    UNIQUE(dname));
+                                    
+INSERT INTO dept_test
+VALUES (10, 'YD', 'Daegu');
+
+INSERT INTO dept_test
+VALUES (20, 'YD1', 'Daegu');
+--ORA-00001: unique constraint (HR.SYS_C007012) violated
+--unique 중복값 오류 
+INSERT INTO dept_test
+VALUES (20, 'YD2', 'Daegu');
+--ORA-01400: cannot insert NULL into ("HR"."DEPT_TEST"."DEPTID")
+--PRIMARY KEY 에 NULL 값 포함시키지못함. 에러 
+INSERT INTO dept_test
+VALUES (NULL, 'YD3', 'Daegu');
+
+DROP TABLE emp_test;
+--FOREIGN KEY 지정하는 방법 
+--TABLE LEVEL에서 지정: FOREIGN KEY (자녀칼럼이름)REFERENCES 부모 테이블 이름 (기본키) 지정해줘야 참조됨 
+--칼럼 레벨에서 지정: deptid         NUMBER(2) REFERENCES dept_test(deptid), -> 만 추가해주면 됨 
+CREATE TABLE emp_test(
+        empid         NUMBER(5),
+        empname   VARCHAR2(10) NOT NULL,
+        duty            VARCHAR2(9),
+        sal               NUMBER(7,2),
+        bonus          NUMBER(7,2),
+        mgr             NUMBER(5),
+        hire_date   DATE,
+        deptid         NUMBER(2),
+        FOREIGN KEY (deptid) REFERENCES dept_test(deptid));
+        
+INSERT INTO emp_test (empid,empname, deptid)
+VALUES (100, 'YD1', 10);
+
+INSERT INTO emp_test (empid,empname, deptid)
+VALUES (200, 'YD2', NULL);
+
+--ORA-02291: integrity constraint (HR.SYS_C007015) violated - parent key not found
+--부모키에 30값이 없기 때문에 에러 
+INSERT INTO emp_test (empid,empname, deptid)
+VALUES (300, 'YD3', 30);
+
+DROP TABLE emp_test;
+
+CREATE TABLE emp_test(
+        empid         NUMBER(5),
+        empname   VARCHAR2(10) NOT NULL,
+        duty            VARCHAR2(9),
+        sal               NUMBER(7,2),
+        bonus          NUMBER(7,2),
+        mgr             NUMBER(5),
+        hire_date   DATE,
+        deptid         NUMBER(2),
+        FOREIGN KEY (deptid) REFERENCES dept_test(deptid) ON DELETE SET NULL);
+        
+        INSERT INTO emp_test (empid,empname, deptid)
+VALUES (100, 'YD1', 10);
+
+INSERT INTO emp_test (empid,empname, deptid)
+VALUES (200, 'YD2', NULL);
+
+SELECT * 
+FROM emp_test;
+--부모 테이블에서 10번 삭제 
+DELETE dept_test
+WHERE deptid = 10;
+
+--확인하면 자식 칼럼에서 참조하던 10번이 null 로 변함 
+--ON DELETE SET NULL 지정해놔서 변경된것임 
+--현업에서는 이거 사용안함. 
+SELECT * 
+FROM emp_test;
+
+DROP TABLE emp_test;
+--CHECK 제약조건 
+
+CREATE TABLE emp_test(
+        empid         NUMBER(5),
+        empname   VARCHAR2(10) NOT NULL,
+        duty            VARCHAR2(9),
+        sal               NUMBER(7,2),
+        bonus          NUMBER(7,2),
+        mgr             NUMBER(5),
+        hire_date   DATE,
+        deptid         NUMBER(2),
+        CHECK (deptid BETWEEN 10 AND 99),
+        FOREIGN KEY (deptid) REFERENCES dept_test(deptid));
+--CHECK 10-99사이의 2자리 숫자가 아님 .에러         
+INSERT INTO emp_test (empid, empname, deptid)
+VALUES (100,'YD1',10);
+
+ALTER TABLE emp_test
+ADD PRIMARY KEY (empid);
+
+--제약조건 추가 
+ALTER TABLE emp_test 
+ADD FOREIGN KEY (mgr) REFERENCES emp_test(empid);
+--NOT NULL제약조건은 MODIFY 로 변경해줘야함 
+ALTER TABLE emp_test
+MODIFY (duty NOT NULL);
+
+--제약조건 삭제 
+--제약조건 이름 칼럼 조회 (SYS_C로 시작하는게 제약조건 이름 )
+SELECT constraint_name, column_name
+FROM user_cons_columns;
+
+DESC user_cons_columns;
+
+SELECT constraint_name, table_name, column_name
+FROM user_cons_columns
+WHERE table_name  = 'EMP_TEST';
+
+ALTER TABLE emp_test
+DROP CONSTRAINT sys_c007018;
+
+--VIEW 
+--일부 정보를 보기 위해 하나의 창을 생성하는 것. 그 이후에는 이 뷰를 사용해 접근가능  
+--VIEW 는 ALTER 로 수정불가. REPLACE로 덮어쓰는 방법밖에 없음  
+CREATE VIEW empvu80
+AS SELECT employee_id, last_name, salary
+FROM employees
+WHERE department_id = 80;
+
+SELECT *
+FROM empvu80;
+--AS 로 칼럼명 생성 가능 
+CREATE VIEW salvu50
+AS SELECT employee_id ID_NUMBER, last_name NAME, salary*12 ANN_SALARY
+FROM employees
+WHERE department_id = 50;
+
+SELECT *
+FROM salvu50;
+
+--VIEW 수정 : OR REPLACE 
+
+CREATE OR REPLACE VIEW empvu80
+        (id_number, name, sal, department_id)
+AS SELECT employee_id, first_name || ' ' || last_name, salary, department_id 
+FROM employees
+WHERE department_id = 80;
+
+SELECT *
+FROM empvu80;
+--VIEW 생성 (초기 칼럼 이름 설정 ) 
+--EMPLOYEES 와 DEPARTMENTS 테이블 연결시켜줌 (DEPARTMENT_ID로)
+
+CREATE OR REPLACE VIEW dept_sum_vu
+                (name, minsal, maxsal, avgsal)
+AS SELECT d.department_name, MIN(e.salary), MAX(e.salary), AVG(e.salary)
+FROM employees e JOIN departments d
+ON (e.department_id = d.department_id)
+GROUP BY d.department_name;
+
+SELECT *
+FROM dept_sum_vu;
+
+SELECT rownum, employee_id
+FROM employees;
+
+commit;
+--VIEW 를 통한 데이터 조작 
+SELECT *
+FROM empvu80;
+--VIEW를 통해서 삭제했지만 원본 데이터도 함께 삭제됨 
+DELETE empvu80
+WHERE id_number = 176;
+--여기에도 176번 사라짐 
+SELECT *
+FROM employees;
+
+SELECT *
+FROM DEPT_SUM_VU;
+
+--QL 오류: ORA-01732: data manipulation operation not legal on this view
+--VIEW 안에 SUM 이 들어있기 때문에 삭제 불가 
+DELETE dept_sum_vu
+WHERE name = 'IT';
+
+CREATE VIEW test_view
+AS SELECT department_name 
+FROM departments;
+
+SELECT *
+FROM test_view;
+--ORA-01400: cannot insert NULL into ("HR"."DEPARTMENTS"."DEPARTMENT_ID")
+--primary key 
+INSERT INTO test_view 
+VALUES ('YD');
+
+--SEQUENCE (ORACLE만 있음) 자동번호 부여할 때 사용
+CREATE SEQUENCE dept_deptid_seq
+                                  INCREMENT BY 10
+                                  START WITH 120
+                                  MAXVALUE 9999
+                                  NOCACHE 
+                                  NOCYCLE;
+--10씩 증가해 department_id 하나씩 추가.시작 120 
+INSERT INTO departments (department_id, department_name, location_id)
+VALUES         (dept_deptid_seq.NEXTVAL, 'Support', 2500);
+
+SELECT *
+FROM departments;
+
+rollback;
+
+SELECT *
+FROM departments;
+
+INSERT INTO departments (department_id, department_name, location_id)
+VALUES         (dept_deptid_seq.NEXTVAL, 'Support', 2500);
+--startvalue 없으면 기존에 있던 수 기준으로 랜덤 생성됨 
+SELECT *
+FROM departments;
+
+--현재 시퀀스 확인 
+SELECT dept_deptid_seq.CURRVAL
+FROM dual;
+--sequence 삭제 drop
+
+--SYNONYM
+CREATE SYNONYM d_sum 
+FOR dept_sum_vu;
+--아래와 동일하게 출력
+SELECT *
+FROM d_sum;
+--synonym 사용 안할 시 
+SELECT *
+FROM dept_sum_vu;
+
+--------DCL 명령어------
+SELECT *
+FROM system_privilege_map;
+--관리자로 들어가 계정 생성 
+CREATE USER skj
+IDENTIFIED BY test;
+--접근권한 주기 
+GRANT CREATE SESSION
+TO skj;
+
+GRANT create session, create table, create view
+TO skj;
+--줬던 권한 뺏을 경우 REVOKE
+
+REVOKE create table, create view
+FROM skj;
+--비밀번호 변경 
+ALTER USER skj
+IDENTIFIED BY lion;
+
+--ROLL 생성, 권한 부여 
+CREATE ROLE manager;
+
+CREATE USER yedam
+IDENTIFIED BY yedam 
+DEFAULT TABLESPACE users
+TEMPORARY TABLESPACE temp;
+--ORACLE에 설정되어있는 ROLE 
+GRANT connect, dba
+TO yedam;
+
+REVOKE SELECT
+ON hr.employees
+FROM yedam;
+------관리자 끝
+
+--계층적 질의 (고급sql)
+--king 부터 다 보여줌 
+--top down
+SELECT LEVEL, employee_id, last_name, manager_id
+FROM employees
+START WITH manager_id IS NULL
+CONNECT BY PRIOR employee_id = manager_id;
+--bottom up
+SELECT LEVEL, employee_id, last_name, job_id, manager_id
+FROM employees
+START WITH manager_id IS NULL
+CONNECT BY PRIOR manager_id = employee_id;
+
+--level 별로 위치가 다르게 출력됨 
+SELECT LEVEL, 
+              LPAD(' ', 4*(LEVEL-1))||employee_id employee, last_name, manager_id 
+FROM employees
+START WITH manager_id IS NULL
+CONNECT BY PRIOR employee_id = manager_id;
+
+-----------------------------test------------------------------
+SELECT *
+FROM employees;
+--1)값 안나옴 
+SELECT employee_id, last_name, salary, department_id
+FROM employees
+WHERE salary = (SELECT salary
+                            FROM employees
+                            WHERE salary BETWEEN 7000 AND 12000)
+AND last_name IN (SELECT last_name
+                                FROM employees
+                                WHERE LOWER(last_name) = 'h%'); 
+                                
+--2) HIREDATE 수정 
+SELECT employee_id, last_name, TO_CHAR(hire_date,'MM/DD/YYYY DAY')as hiredate , TO_CHAR((salary*commission_pct)1234567,'$999,999,99.00') as FINALSALARY 
+FROM employees 
+WHERE commission_pct is not null
+ORDER BY finalsalary;
+
+--3)
+SELECT employee_id, last_name, job_id, salary, department_id
+FROM employees
+WHERE department_id IN (SELECT department_id 
+                             FROM employees
+                             WHERE department_id  IN (50,60)) 
+AND salary IN (SELECT salary
+                             FROM employees
+                             WHERE salary > 5000);
+
+--4) 값 안나옴 
+
+select *
+from employees;
+
+SELECT employee_id, last_name, department_id 
+CASE  WHEN department_id= 20  THEN 'Canada'
+            WHEN department_id= 80  THEN 'UK'
+                                                       ELSE 'USA'
+        END 'WORKING LOCATION'
+FROM employees;
+
+--5)
+SELECT e.employee_id, e.last_name, d.department_id, d.department_name
+FROM employees e, departments d
+WHERE e.department_id = d.department_id(+);
+
+--6)오류 
+SELECT &employee_id, last_name, hire_date, 
+FROM employees
+WHERE hire_date IN (SELECT hire_date
+                                    FROM employees
+                                    CASE WHEN hire_date < '05/01/01' THEN 'Career employee'
+                                              ELSE 'New employee'
+                                               FROM employees
+                                              ) ;
+
+--7) 
+SELECT last_name, salary,
+        CASE WHEN salary<5000 THEN salary*1.2
+                    WHEN salary<10000 THEN salary*1.15
+                    WHEN salary<15000 THEN salary*1.1
+                    ELSE salary
+        END qualified_salary
+FROM employees
+WHERE &condition = employee_id;
+
+--8)
+select * 
+from employees;
+SELECT department_id, department_name, city
+FROM departments d, locations l
+WHERE d.location_id = l.location_id;
+
+--9)값 안나옴 
+SELECT employee_id, last_name, job_id
+FROM employees
+WHERE job_id  = ( SELECT job_id
+                                FROM employees
+                                WHERE  LOWER(job_id) = 'it%');
+                                
+--10)
+SELECT department_id,COUNT (department_id), ROUND(AVG(salary))
+FROM EMPLOYEES
+GROUP BY department_id;
+
+--11)
+CREATE TABLE prof(
+        profno         NUMBER(4),
+        name   VARCHAR2(15) NOT NULL,
+        id            VARCHAR2(9) NOT NULL,
+        hiredate               DATE,
+        pay         NUMBER(4));
+        
+--12-1)
+INSERT INTO prof
+VALUES (1001,'Mark','m1001','07/03/01',800);
+INSERT INTO prof
+VALUES (1003,'Adam','a1003','11/03/02',null);
+--12-2)
+ UPDATE prof
+ SET pay = 1200
+ WHERE profno = 1001;
+ --12-3)
+ DELETE PROF
+ WHERE PROFNO = 1003;
+ 
