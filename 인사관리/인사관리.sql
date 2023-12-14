@@ -28,7 +28,7 @@ select last_name, salary, salary + 300
 select last_name, salary, 12 * salary + 100
 from employees;
 
-select last_name, salary, 12 * (salary + 100)
+select last_name, salary, 12 * (salary + 100) AS ANNSAL
 from employees;
 
 select last_name, job_id, salary, commission_pct
@@ -131,7 +131,7 @@ WHERE manager_id IN (100, 101, 201);
 -- %뒤에 문자 포함  _ 일경우 문자가 하나만 올 수 있음 
 SELECT first_name
 FROM employees
-WHERE first_name LIKE 'S%';
+WHERE LOWER(first_name) LIKE 's%';
 
 SELECT last_name
 FROM employees
