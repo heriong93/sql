@@ -10,7 +10,7 @@ CREATE TABLE flight (
     fl_price                NUMBER(10));
     
     CREATE TABLE USERS (
-    user_num         NUMBER(10),
+    user_id         NUMBER(10),
     user_name         VARCHAR2(10) NOT NULL ,
     user_birth          VARCHAR2(9)NOT NULL ,
     user_phone         VARCHAR2(10),
@@ -83,8 +83,8 @@ values ('RSI1215');
  ------------------------------개인프로젝트----
  --조회 
  --1번 간단조회 
-SELECT fl_name, fl_date, time_fl, ds_name
-FROM flight
+SELECT tr_num,tr_name, tr_, ds_name
+FROM trains
 ORDER BY fl_date;
 --2번 세부 목록 조회
 SELECT * 
@@ -98,6 +98,7 @@ MODIFY time_ar NUMBER;
 
 ALTER TABLE FLIGHT
 MODIFY time_ar NUMBER;
+
 ALTER TABLE reservation
 MODIFY rs_number VARCHAR2(20);
 
