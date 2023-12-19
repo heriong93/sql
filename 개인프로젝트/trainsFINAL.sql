@@ -90,10 +90,11 @@ FROM USERS
 WHERE USER_ID = 'rhrnak01'
 AND USER_PW = '12345';
 
+
 --3-2))예약
 
 INSERT INTO booking
-VALUES('rhrnak01','1010',1);
+VALUES('rhrnak01','1010');
 
 --테이블 연결
 SELECT u.user_name, b.booking_train
@@ -104,22 +105,18 @@ AND t.tr_num = b.booking_train;
 
 --예약 테이블에 저장 
 insert into booking 
-values ('rhrnak01','1010',3);
+values ('rhrnak03','1010');
 
---예약 시 좌석 차감(남은 좌석 출력)
+--예약 시 좌석 차감
 
-select  (t.tr_seat - NVL(tk_amount,0))
-FROM trains t, booking b
-WHERE b.booking_train = t.tr_num
-AND t.tr_num = '5030';
-
+select 
 
 --4) 예약 조회  by user_id
-SELECT t.tr_num,t.tr_name,u.user_name,t.tr_time  
-FROM users u,trains t,booking b 
-WHERE t.tr_num = b.booking_train 
+SELECT t.tr_num,t.tr_name,u.user_name,t.tr_time 
+FROM users u,trains t,booking b
+WHERE t.tr_num = b.booking_train
 AND u.user_id = b.booking_id
-and b.booking_id = 'rhrnak01';
+and u.user_id = 'rkawk01';
 
 --5)예약취소 (삭제) 
 DELETE 
