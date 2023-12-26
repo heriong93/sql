@@ -94,3 +94,24 @@ VALUES (board_seq.nextval, '우리반 화이팅!', '김막내', '열심히 공부해요');
 SELECT * 
 FROM board
 ORDER BY 1;
+
+--------------------12/26
+SELECT *
+FROM tab;
+
+select *
+from member;
+
+CREATE TABLE member (
+id varchar2(20) primary key,
+pw varchar2(10) not null,
+name varchar2(100) not null,
+responsibility varchar2(10) DEFAULT 'user'); -- ADMIN/ USER 구분
+
+DELETE FROM member
+WHERE responsibility = 'User1';
+INSERT INTO member values('user1', '1111', '홍길동', 'User');
+
+INSERT INTO member values('user2', '2222', '김철수', 'User');
+
+INSERT INTO member values('user3', '3333', '관리자', 'Admin');
