@@ -8,7 +8,8 @@ eng_score          NUMBER DEFAULT 80,
 math_score        NUMBER DEFAULT 70 );
 
 SELECT *
-FROM student;
+FROM student
+order by stu_num;
 --등록, 수정, 삭제, 단건조회, 목록 
 INSERT INTO student (stu_num, stu_name, eng_score, math_score)
 VALUES ('23-001', '홍길동', 70,85);
