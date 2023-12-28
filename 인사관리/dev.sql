@@ -116,3 +116,32 @@ INSERT INTO member values('user1', '1111', '홍길동', 'User');
 INSERT INTO member values('user2', '2222', '김철수', 'User');
 
 INSERT INTO member values('user3', '3333', '관리자', 'Admin');
+----------------------------------------------
+
+create table product (
+ product_code char(8) primary key, -- P2023-01
+ product_name varchar2(100) not null,
+ product_desc varchar2(300) not null,
+ origin_price number not null,
+ sale_price number,
+ like_it number default 3, --추천수
+ image varchar2(30)
+);
+
+
+select *
+from product;
+
+insert into product values('P2023-01', '과테말라 안티구아', '과테말라산 원두입니다.', 5000, 4500, 5, '과테말라.jpg');
+
+insert into product values('P2023-02', '니카라구아 아라비카', '니카라구아 더치커피입니다.', 5000, 4500, 4, '니카라구아 더치.jpg');
+
+insert into product values('P2023-03', '브라질 산토스', '브라질 산토스 맛있는 커피입니다.', 6000, 5000, 5, '브라질산토스.jpg');
+
+insert into product values('P2023-04', '에티오피아 예가체프', '제가 가장 좋아하는 커피입니다.', 4000, 3500, 5, '예가체프.jpg');
+
+insert into product values('P2023-05', '케냐 오크라톡신', '케냐에서 온 톡 쏘는 원두입니다.', 4500, 3000, 5, '케냐 오크라톡신.jpg');
+
+insert into product values('P2023-06', '코스타리카 따라주', '따라할 수 없는 맛의 원두입니다.', 3000, 2500, 3, '코스타리카 따라주.jpg');
+
+
