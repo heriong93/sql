@@ -14,19 +14,23 @@ INSERT INTO reply(reply_no,board_no,reply,replyer)
 VALUES (reply_seq.nextval,14,'안녕하세요~ 반갑습니다', 'user4');
 
 INSERT INTO reply(reply_no,board_no,reply,replyer)
-VALUES (reply_seq.nextval,14,'친하게 지내요 박혜령님!', 'user1');
+VALUES (reply_seq.nextval,14,'1위하고 싶습니다!', 'user1');
 
 INSERT INTO reply(reply_no,board_no,reply,replyer)
-VALUES (reply_seq.nextval,14,'남의 게시물에서 이러는거 보기 좋지 않군요', 'user9');
+VALUES (reply_seq.nextval,14,'남의 게시물에서 이러는거 보기 좋지 않군요', 'user5');
 
 INSERT INTO reply(reply_no,board_no,reply,replyer)
 VALUES (reply_seq.nextval,22,'김박사님은 정말 박사이신가요? ', 'user9');
 
 INSERT INTO reply(reply_no,board_no,reply,replyer)
-VALUES (reply_seq.nextval,22,'금요일 좋아요~~', 'user3');
+VALUES (reply_seq.nextval,22,'우후엉헝헝허엉', 'user3');
+
+INSERT INTO reply(reply_no,board_no,reply,replyer)
+VALUES (reply_seq.nextval,16,'수업 빨리 마치고 놀이터 가자!', 'user2');
 
 select *
-from reply;
+from reply
+where board_no = 22;
 
 select *
 from member;
@@ -57,3 +61,15 @@ select b.* from
     ) a ) b
     
     where b.rn > (2-1) and b.rn <=2*5;
+
+select * from reply;
+
+select name, count (*)
+from reply r
+join member m
+on r.replyer = m.id
+group by name;
+
+INSERT INTO member values('user4', '4444', '김망고', 'User');
+
+INSERT INTO member values('user5', '5555', '박가모니', 'User');
