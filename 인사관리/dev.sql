@@ -103,6 +103,8 @@ FROM tab;
 select *
 from member;
 
+alter table member add image varchar2(100);
+
 CREATE TABLE member (
 id varchar2(20) primary key,
 pw varchar2(10) not null,
@@ -144,4 +146,24 @@ insert into product values('P2023-05', '케냐 오크라톡신', '케냐에서 온 톡 쏘는 �
 
 insert into product values('P2023-06', '코스타리카 따라주', '따라할 수 없는 맛의 원두입니다.', 3000, 2500, 3, '코스타리카 따라주.jpg');
 
+-------------------------------------------------------------------------------------
+create table books (
+ book_code varchar2(10) primary key,
+ book_name varchar2(100) not null,
+ book_author varchar2(100) not null,
+ book_press varchar2(100) not null,
+ book_price number not null
+);
 
+insert into books values('B001','자바는 재밌다','김자바','잡플레닛',20000);
+
+
+insert into books values('B002','코딩은 어려운 것','박혼란','개발자월드',15000);
+
+insert into books values('B003','오늘은 뭐먹지','홍버거','맛있는출판사',25000);
+
+insert into books values('B004','큰게 다가온다','이예담','모두한마음',23000);
+
+SELECT * 
+FROM BOOKS
+order by 1;
