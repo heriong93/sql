@@ -209,6 +209,21 @@ insert into like_it values (2,1);
 ------------order_item--------
 insert into order_item values (1,1,1,1);
 
+insert into order_item values (2,1,2,1);
+
+insert into order_item values (3,2,2,1);
+
+insert into order_item values (4,2,3,1);
+
+--------------review----------
+insert into review values (1,'2024 최고의 책입니다!! 강력추천',sysdate,1,1,1);
+
+insert into review values (2,'이제 복잡하게 살지 않으려구요',sysdate,1,2,2);
+
+insert into review values (3,'두번이나 읽고 말았습니다',sysdate,2,2,3);
+
+insert into review values (4,'말모말모',sysdate,2,3,4);
+
 ------전체 선택 쿼리-------
 
 select * from member;
@@ -216,5 +231,11 @@ select * from book;
 select * from cart;
 select * from orders;
 select * from like_it;
+select * from order_item;
+select * from review;
 
+-------------
+--order_item -> orderitem_no and od_no 차이가 뭐였지...
+--
 
+select b.name, 
