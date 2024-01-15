@@ -236,6 +236,26 @@ select * from review;
 
 -------------
 --order_item -> orderitem_no and od_no 차이가 뭐였지...
---
+------------------
 
-select b.name, 
+--베스트셀러 출력 쿼리 
+
+select b.* , c.*
+from book b ,  cart c 
+where b.book_no = c.book_no
+order by c.quantity desc;
+
+------
+SELECT COUNT quantity
+FROM order_item o, book b
+WHERE b.name = o.book_no;
+
+-----------신간도서 출력쿼리 -------
+
+select * from book
+where dt > '2023/12/31'
+order by dt desc;
+---분야별---
+
+select * from book
+where category ='로맨스';
