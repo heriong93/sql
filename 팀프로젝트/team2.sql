@@ -158,7 +158,10 @@ ALTER TABLE order_item ADD CONSTRAINT FK_book_TO_order_item_1 FOREIGN KEY (
 REFERENCES book (
 	book_no
 );
+---------------member sequence 등록-----
 
+drop sequence member_sequence;
+CREATE SEQUENCE member_sequence start with 4;
 
 -------날짜 입력 안할 시 오늘 날짜로 default 저장----------------
 alter table orders modify odt default sysdate;
@@ -167,11 +170,11 @@ alter table orders modify odt default sysdate;
 ----------------------샘플데이터 등록-----------------------------
 
 ------------------book---------
-insert into book values ('001','우리조최고','효은님','예담출판사',20000,'2024/01/12','미스터리','이 책은 예담의 베스트셀러','다운로드.jpg','978-89-94327-80-8');
+insert into book values (member_seq.nextval,'우리조최고','효은님','예담출판사',20000,'2024/01/12','미스터리','이 책은 예담의 베스트셀러','다운로드.jpg','978-89-94327-80-8');
 
-insert into book values ('002','인생이란무엇','만사태평','노세노세',24000,'2023/11/13','로맨스','잘살아보세','스마일.jpg','978-89-94327-87-9');
+insert into book values (member_seq.nextval,'인생이란무엇','만사태평','노세노세',24000,'2023/11/13','로맨스','잘살아보세','스마일.jpg','978-89-94327-87-9');
 
-insert into book values ('003','복잡하지않아','박아나','나무야미안해',25000,'2022/05/25','아동','아이들의 최애도서','아가.jpg','909-89-94327-80-8');
+insert into book values (member_seq.nextval,'복잡하지않아','박아나','나무야미안해',25000,'2022/05/25','아동','아이들의 최애도서','아가.jpg','909-89-94327-80-8');
 
 ------------member----------
 insert into member values (1,'apple1','박사과','tkrhk1','tkrhk@naver.com','32','010-5454-5455','스릴러','y',3000);
@@ -179,6 +182,8 @@ insert into member values (1,'apple1','박사과','tkrhk1','tkrhk@naver.com','32','
 insert into member values (2,'carrot1','김당근','ekdrms1','ekdrms@naver.com','23','010-4242-1212','예술','n',1000);
 
 insert into member values (3,'potato1','이감자','rkawk1','rkawk@naver.com','26','010-2111-6565','정치','y',4000);
+
+insert into member values (member_sequence.nextval,'rlfehd3','홍길동','rlfehd4','rlfehd@naver.com','40','010-1211-6225','정치','y',1000);
 
 -----------------------orders------------------
 
@@ -223,6 +228,11 @@ insert into review values (2,'이제 복잡하게 살지 않으려구요',sysdate,1,2,2);
 insert into review values (3,'두번이나 읽고 말았습니다',sysdate,2,2,3);
 
 insert into review values (4,'말모말모',sysdate,2,3,4);
+-----추가 리뷰-----
+insert into review values (5,'무조건 보세요 나의 인생도서',sysdate,1,1,5);
+insert into review values (6,'안보면 후회합니다',sysdate,2,1,6);
+insert into review values (7,'저는 재미없었어요',sysdate,3,1,7);
+
 
 ------전체 선택 쿼리-------
 
@@ -239,23 +249,24 @@ select * from review;
 ------------------
 
 --베스트셀러 출력 쿼리 
-
-select b.* , c.*
-from book b ,  cart c 
-where b.book_no = c.book_no
-order by c.quantity desc;
-
-------
-SELECT COUNT quantity
-FROM order_item o, book b
-WHERE b.name = o.book_no;
+select cnt ,b.* 
+from (
+    select book_no,count(book_no) as cnt
+        from  order_item         
+        group by book_no    
+        order by count(book_no) desc
+   ) o,book b  
+   where b.book_no = o.book_no;
+   
+   and b.category='로맨스'; 
 
 -----------신간도서 출력쿼리 -------
 
 select * from book
 where dt > '2023/12/31'
 order by dt desc;
----분야별---
+
+---분야별 책 출력---
 
 select * from book
-where category ='로맨스';
+where category  in ('인문', '유아');
