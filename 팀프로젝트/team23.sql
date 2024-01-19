@@ -357,7 +357,7 @@ from (
 -----------신간도서 출력쿼리 -------
 
 select * from book
-where dt > '2023/12/31'
+where dt > sysdate-7
 order by dt desc;
 
 ---분야별 책 출력---
