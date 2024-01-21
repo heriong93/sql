@@ -343,22 +343,32 @@ select * from review;
 ------------------
 
 --베스트셀러 출력 쿼리 
-select cnt ,b.* 
-from (
-    select book_no,count(book_no) as cnt
+select rownum, cnt ,b.* 
+	from (
+     select  book_no,count(quantity) as cnt
         from  order_item         
-        group by book_no    
-        order by count(book_no) desc
+        group by book_no  
+       
    ) o,book b  
-   where b.book_no = o.book_no;
-   
-   and b.category='로맨스'; 
+   where b.book_no = o.book_no
+   and rownum <=4
+   order by cnt desc;
 
+   
+    select book_no,count(quantity) as cnt
+        from  order_item         
+        group by book_no  
+        order by cnt desc;
 -----------신간도서 출력쿼리 -------
 
-select * from book
+select * from(
+select rownum as rank,b.*from
+(select *   
+from book
 where dt > sysdate-7
-order by dt desc;
+order by dt desc)b)
+where rank >(1-1) and rank <= 10;
+
 
 ---분야별 책 출력---
 
@@ -371,11 +381,11 @@ select rownum as r,b.*from
 (select *   
 from book
 order by book_no)b)
-where r > (1-1) and r <= 5;
+where r > (1-1) and r <= 10;
 
 where r between 1 and 10;
 ----총 게시물 카운트 
-select count(*) from book;
+select count(*) from book
 
 where b.rn > (#{page}-1) and b.rn <= #{page}*5
   
