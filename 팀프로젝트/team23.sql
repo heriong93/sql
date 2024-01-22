@@ -258,10 +258,27 @@ INSERT INTO BOOK (   BOOK_NO,NAME, AUTHOR, DT, ABOUT, PRICE, IMG, CATEGORY, COMP
 ');
 
 INSERT INTO BOOK (   BOOK_NO,NAME, AUTHOR, DT, ABOUT, PRICE, IMG, CATEGORY, COMP, ISBN) VALUES (75,'시원스쿨 중국어 말하기 핵심패턴 301','윤주희,시원스쿨 중국어연구소','2023-11-01','중국인이 실제 대화에서 가장 많이 쓰는 301개의 중국어 문장 패턴만을 엄선하여 수록한 도서다. 원어민이 매일 쓰는 기초 패턴부터, HSK에 자주 출제되는 빈출 패턴까지 중국어 회화에 꼭 필요한 패턴만 차곡차곡 담아냈다. ',17800,'k502936280_1.jpg','외국어','시원스쿨닷컴','9791161507767
-
-
 ');
 
+INSERT INTO BOOK (   BOOK_NO,NAME, AUTHOR, DT, ABOUT, PRICE, IMG, CATEGORY, COMP, ISBN) VALUES (76,'불편한 편의점','김호연','2021-04-20','<망원동 브라더스>의 작가 김호연의 동네이야기시즌 2. 청파동 골목 모퉁이에 자리 잡은 작은 편의점을 무대로 힘겨운 시대를 살아가는 우리 이웃들의 삶의 속내와 희로애락을 따뜻하고 유머러스하게 담아냈다. <망원동 브라더스>에서 망원동이라는 공간의 체험적 지리지를 잘 활용해 유쾌한 재미와 공감을 이끌어냈듯 이번에는 서울의 오래된 동네 청파동에 대한 공감각을 생생하게 포착해 또 하나의 흥미진진한 ‘동네 이야기’를 탄생시켰다.
+
+서울역에서 노숙인 생활을 하던 독고라는 남자가 어느 날 70대 여성의 지갑을 찾아준 인연으로 그녀가 운영하는 편의점에서 야간 아르바이트를 하며 이야기가 시작된다. 덩치가 곰 같은 이 사내는 알코올성 치매로 과거를 기억하지 못하는 데다 말도 어눌하고 행동도 굼떠 과연 손님을 제대로 상대할 수 있을까 의구심을 갖게 하는데 웬걸, 의외로 그는 일을 꽤 잘해낼 뿐 아니라 주변 사람들을 묘하게 사로잡으면서 편의점의 밤을 지키는 든든한 일꾼이 되어간다. ',14000,'k192836746_2.jpg','소설','나무옆의자','9791161571188');
+
+INSERT INTO BOOK (   BOOK_NO,NAME, AUTHOR, DT, ABOUT, PRICE, IMG, CATEGORY, COMP, ISBN) VALUES (78,'서영자 집밥 205','윤주희,시원스쿨 중국어연구소','2024-01-30','밑반찬부터 녹두삼계탕, 일품요리까지 단 1시간 만에 뚝딱 만들어 낼 수 있는 마법의 요리 동선을 소개한 <1사간에 만드는 일주일 반찬> 도서와 ‘좋아요’와 조회 수 모두 화제가 되었던 채널 인기 레시피를 수록한 <영자씨의 부엌 최고의 레시피100> 도서의 레시피를 모두 담은 합본 한정판이다.
+
+나이 불문하고 누구나 볼 수 있는 큰글씨 요리책으로 일반 요리책보다 글씨 크기를 두 배 크게 구성하여 나이가 지긋한 어머님들까지 보기 편한 요리책으로 제작되었다. 눈이 피로하지 않고, 멀리서 봐도 내용이 한눈에 들어와 요리를 하는데 집중할 수 있도록 돕는다.
+
+펼쳐서 보기 편한 스프링북으로 주방에서 요리할 때 페이지가 넘어가 당황할 수 있는 순간을 줄였다. 요리 페이지를 고정하기 위해 펼치고 펼치다 책이 찢어질 염려가 없고, 요리 중 내용을 확인하기 위해 페이지를 찾다가 양념이 타는 걱정 없이 접어서 볼 수 있게 되어 있어, 초보 주부부터 베테랑 주부까지 다른 것에 스트레스 받지 않고 요리에 집중하여 제대로 된 맛을 낼 수 있도록 큰글씨 요리책으로 제작되었다. ',30000,'k132938772_1.jpg','가정','용감한까치','9791191994254
+');
+INSERT INTO BOOK (   BOOK_NO,NAME, AUTHOR, DT, ABOUT, PRICE, IMG, CATEGORY, COMP, ISBN) VALUES (79,'의식이라는 꿈','대니얼 C. 데닛 (지은이),문규민 (옮긴이)','2024-01-22','이 시대 가장 독창적인 사상가, 심리철학, 인지과학, 생물철학의 선구자로서 마음·종교·인공지능 연구에 심대한 영향을 끼친 철학자이지 인지과학자 데니얼 데닛이 신비로운 의식의 껍질을 벗긴다. 우리의 축축한 뇌에서 어떻게 의식이 나올 수 있을까? 일부 심리철학자와 과학자는 이런 질문에 답하기 어려워하여 의식은 나에게만 알려지는 신비로운 사건이라고 말한다. 놀랍게도 데닛은 의식은 사적이라는 입장을 부정한다. 그의 주장은 단순히 ‘의식은 없다’는 제거주의가 아니다. 철학자와 과학자가 말하는 ‘그런 의식’ ‘그런 주관성’ ‘그런 감각질’은 없다는 것이다.
+
+의식과학은 명실상부 정상과학이 되어가고 있으며 과학적 방법으로 탐구할 수 있는 대상이다. 데닛은 이를 위해 획기적인 사고 실험과 비유를 동원해 의식 연구를 가로막는 불량 직관들을 폐기하고 우리의 통념과 관성을 부순다. 의식은 놀라운 현상이지만 사실 그렇게까지 놀라운 현상은 아니다. 이 땅에 뿌리내린 다양한 진화적 알고리듬의 비교적 최근 결과물이며 생물학적인 현상이다. ',17500,'k342938667_1.jpg','교양','바다출판사','9791166892141
+');
+
+INSERT INTO BOOK (   BOOK_NO,NAME, AUTHOR, DT, ABOUT, PRICE, IMG, CATEGORY, COMP, ISBN) VALUES (81,'개혁의 정석','전주성','2024-01-20','우리는 미래를 어떻게 준비해야 할까? 나 혼자만 열심히 준비한다고 해서 미래가 획기적으로 더 나아지진 않는다. 재정정책 분야의 세계적인 권위자 전주성 교수는 《개혁의 정석》을 통해 “대한민국의 ‘개혁’이 성공하지 못하면 우리에게 밝은 미래는 오지 않는다”고 말한다. 개인뿐만 아니라 “사회가 지금보다 발전적인 방향으로 변화해야 ‘더 나은 미래’가 찾아올 수 있다”는 것이다.
+
+이 책은 국내 최초로 연금·교육·인구·노동 등 최근 사회적 관심이 집중된 4대 개혁과 이를 뒷받침할 재원 확보 및 정책 능력과 관련된 조세개혁·정부개혁까지 포괄해 다룬 사회평론서다. 지금까지 각 분야별 책은 있었지만 전주성 교수처럼 여러 개혁 주제를 유기적으로 체계화시킨 시도는 없었다.',20000,'k972937051_1.jpg','정치','매일경제신문사','9791164846566
+');
 ------------member----------
 insert into member values (1,'apple1','박사과','tkrhk1','tkrhk@naver.com','32','010-5454-5455','스릴러','y',3000);
 
@@ -281,6 +298,12 @@ insert into orders(od_no,od_tg,od_ad,od_status,od_price,use_point,od_total, memb
 
 insert into orders(od_no,od_tg,od_ad,od_status,od_price,use_point,od_total, member_no,phone) values
 (3,'홍길동','부산시 주문진 자갈치로54','주문완료',98800,1000,97800,4,'010-1211-6225');
+
+insert into orders(od_no,od_tg,od_ad,od_status,od_price,use_point,od_total, member_no,phone) values
+(4,'김당근','대구 중구 예담로133','주문완료',56800,500,56300,1,'010-5454-5455');
+
+insert into orders(od_no,od_tg,od_ad,od_status,od_price,use_point,od_total, member_no,phone) values
+(5,'이감자','서울시 동대문구 전통길43','주문완료',51300,0,51300,3,'010-2111-6565');
 
 
 ------------cart------------------
@@ -311,6 +334,10 @@ insert into order_item values (2,1,64,1);
 insert into order_item values (3,2,64,1);
 
 insert into order_item values (4,2,66,1);
+
+insert into order_item values (9,3,64,1);
+
+insert into order_item values (9,3,64,1);
 
 insert into order_item values (9,3,64,1);
 
@@ -348,27 +375,20 @@ select rownum, cnt ,b.*
      select  book_no,count(quantity) as cnt
         from  order_item         
         group by book_no  
-       
+        order by 2 desc  
    ) o,book b  
    where b.book_no = o.book_no
-   and rownum <=4
-   order by cnt desc;
-
+   and rownum <=12;
    
-    select book_no,count(quantity) as cnt
-        from  order_item         
-        group by book_no  
-        order by cnt desc;
 -----------신간도서 출력쿼리 -------
 
 select * from(
 select rownum as rank,b.*from
 (select *   
 from book
-where dt > sysdate-7
+where dt > sysdate-7   --오늘 기준 7일 전까지만 신작
 order by dt desc)b)
-where rank >(1-1) and rank <= 10;
-
+where rank <= 10;
 
 ---분야별 책 출력---
 
@@ -381,7 +401,7 @@ select rownum as r,b.*from
 (select *   
 from book
 order by book_no)b)
-where r > (1-1) and r <= 10;
+where r > (1-1) and r <= 12;
 
 where r between 1 and 10;
 ----총 게시물 카운트 
