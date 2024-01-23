@@ -165,6 +165,8 @@ CREATE SEQUENCE order_item_seq start with 10;
 -----------cart sequence 등록 --------------
 drop sequence cart_seq;
 CREATE SEQUENCE cart_seq start with 5;
+-----review seq 등록 ---------
+CREATE SEQUENCE review_seq start with 9;
 
 ---------------member sequence 등록-----
 
@@ -377,8 +379,7 @@ select rownum, cnt ,b.*
         group by book_no  
         order by 2 desc  
    ) o,book b  
-   where b.book_no = o.book_no
-   and rownum <=12;
+   where b.book_no = o.book_no;
    
 -----------신간도서 출력쿼리 -------
 
@@ -407,5 +408,11 @@ where r between 1 and 10;
 ----총 게시물 카운트 
 select count(*) from book
 
-where b.rn > (#{page}-1) and b.rn <= #{page}*5
+where b.rn > (#{page}-1) and b.rn <= #{page}*5;
+
+---오라클이 처리 하는 프로세스 수가 적게 설정 되어 발생 되는 오류 입니다.
+--process=300 이 부분을 조금 여유롭게 늘려 준다.
+alter system set processes=30000 scope=spfile;
+
+
   
