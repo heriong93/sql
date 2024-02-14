@@ -414,5 +414,9 @@ where b.rn > (#{page}-1) and b.rn <= #{page}*5;
 --process=300 이 부분을 조금 여유롭게 늘려 준다.
 alter system set processes=30000 scope=spfile;
 
+------------랜덤도서 출력쿼리----
+
+select * from book
+order by dbms_random.random ;
 
   
