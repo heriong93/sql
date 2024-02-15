@@ -461,41 +461,53 @@ END;
  */ 
  --기본
  DECLARE
-        v_star      VARCHAR2(100) := '*';
+        v_star      VARCHAR2(100) := '';
         v_space  NUMBER(2,0) := 0;
  BEGIN 
     LOOP
     --변수가 변경되는 코드가 항상 있어야함
-        DBMS_OUTPUT.PUT_LINE(v_star);
           v_star := v_star || '*'; 
+          DBMS_OUTPUT.PUT_LINE(v_star);
         v_space := v_space + 1;
-        EXIT WHEN v_space > 4 ;
+        EXIT WHEN v_space > 5 ;
     END LOOP;
  END;
  /
  
  --WHILE LOOP 
  DECLARE
-        v_star      VARCHAR2(100) := '*';
+        v_star      VARCHAR2(100) := '';
         v_space  NUMBER(2,0) := 0;
  BEGIN 
         WHILE v_space < 5 LOOP 
-                   DBMS_OUTPUT.PUT_LINE(v_star);
                  v_star := v_star || '*'; 
+                    DBMS_OUTPUT.PUT_LINE(v_star);
                 v_space := v_space +1;
         END LOOP;
         
  END;
  /
+ 
  --FOR LOOP
  DECLARE
-        v_star      VARCHAR2(100) := '*';
+        v_star      VARCHAR2(100) := '';
         v_space  NUMBER(2,0) := 0;
  BEGIN 
-        FOR idx IN 0 .. 4 LOOP --최소값 .. 최대값 // 1씩 증가됨
-        DBMS_OUTPUT.PUT_LINE(v_star);
+        FOR idx IN 1 .. 5 LOOP --최소값 .. 최대값 // 1씩 증가됨
         v_star := v_star || '*'; 
+        DBMS_OUTPUT.PUT_LINE(v_star);
         v_space := v_space + 1;
         END LOOP;
  END;
  /
+ --FOR LOOP 이중문
+ BEGIN 
+        FOR counter IN 1 .. 5 LOOP --몇번째 줄
+            FOR i IN 1..counter LOOP -- * 
+            DBMS_OUTPUT.PUT('*'); --PUT은 줄 바꾸지 않고 옆에서 출력 / 대신 잘 사용하지 않음. put을 사용하는 경우 마지막에는 무조건 PUT_LINE사용해야함. 아니면 출력안됨(밀어줄 무언가가 필요함)
+        END LOOP;
+            DBMS_OUTPUT.PUT_LINE('');
+        END LOOP;
+END;
+/
+        
