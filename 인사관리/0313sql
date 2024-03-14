@@ -1,0 +1,28 @@
+-- rownum으로 페이징을 걸어도 의미 없음 rownum번호 걸고 order 절 실행하기 때문에 순서가 맞지 않음
+select  rownum, e.*  
+from employees e
+order by hire_date;
+
+-- 정확한 방법. 여기서 안에 조건만 바꿔서 사용하면 어디에든 사용 가능 (가운데 서브쿼리만 바꾸면됨)
+select *  from ( select rownum as rn, a.* from (
+                        select * 
+                        from employees 
+                        order by first_name
+) a where rownum <=10) b where rn > 0 ;
+
+-- page            start               end
+-- 1                   (1-1)*10-1      1*10
+-- 2                   (i-1)*5+1          1*5
+
+
+select * from employees
+where employee_id = 5000;
+alter user dev identified by dev;
+select * from dba_users;
+
+-- 부서별 인원 수 
+select e.department_id, department_name, count (*) cnt 
+from employees e 
+JOIN departments d ON e.department_id = d.department_id
+where e.department_id is not null
+group by e.department_id, d.department_name;

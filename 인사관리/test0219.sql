@@ -1,7 +1,7 @@
 SET SERVEROUT ON;
 
 
---2) 
+--2) nvl 처리 누락
 
 SELECT department_name, job_id, salary, (salary * 12)+ (NVL(commission_pct,0)*12) as ansal
 FROM employees e JOIN departments d
@@ -33,7 +33,7 @@ AND e.employee_id = &사원번호;
 END;
 /
 
---3)
+--3) 비교값인 2015년에 대한 처리 적절하지 않음. 2015 입사한 직원은 'career employee 해당
  DECLARE
     v_eno      employees.employee_id%TYPE;
     v_hire      employees.hire_date%TYPE;
@@ -47,12 +47,13 @@ END;
          v_result := 'New Employee';
         ELSE 
             v_result := 'Career Employee';
-            DBMS_OUTPUT.PUT_LINE(v_result);
+            
         END IF;
+        DBMS_OUTPUT.PUT_LINE(v_result);
  END;
  /
 
---4) 
+--4) 들여쓰기 하기 
 DECLARE 
         v_total     NUMBER(3);
 BEGIN 
@@ -168,7 +169,7 @@ WHERE type IN ('PROCEDURE', 'FUNCTION', 'PACKAGE', 'PACKAGE BODY');
 DECLARE
         v_star      VARCHAR2(100) := '';
 BEGIN 
-        FOR counter IN  1 .. 10 LOOP --몇번째 줄
+        FOR counter IN  1 .. 9 LOOP --몇번째 줄
            v_star := v_star || '*'; 
         DBMS_OUTPUT.PUT_LINE(LPAD(v_star,10,'-'));
         END LOOP;
