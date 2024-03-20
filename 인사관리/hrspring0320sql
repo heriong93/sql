@@ -1,0 +1,18 @@
+create table users (
+userid varchar2(20) primary key,
+userpw varchar2(50),
+grade varchar2(10) );
+
+insert into users values('user1','1111','user');
+insert into users values('admin1','1111','admin');
+insert into users values('user2','1111','user');
+
+commit;
+
+select * from customer;
+
+insert into customer values(HIBERNATE_SEQUENCE.nextval,'황비홍','010-1111-1111');
+insert into customer values(HIBERNATE_SEQUENCE.nextval,'독감기','010-2222-2222');
+insert into customer values(HIBERNATE_SEQUENCE.nextval,'봄봄봄','010-3333-3333');
+
+commit;
