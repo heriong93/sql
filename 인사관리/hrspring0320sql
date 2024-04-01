@@ -16,3 +16,4 @@ insert into customer values(HIBERNATE_SEQUENCE.nextval,'독감기','010-2222-222
 insert into customer values(HIBERNATE_SEQUENCE.nextval,'봄봄봄','010-3333-3333');
 
 commit;
+
