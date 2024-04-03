@@ -172,18 +172,19 @@ CREATE TABLE bom
 	unit                 VARCHAR2(100) NULL ,
 	detail_unit          VARCHAR2(100) NULL ,
 	consum               NUMBER(20) NOT NULL ,
-	mt_cd                VARCHAR2(100) NOT NULL 
+	mt_cd                VARCHAR2(100) NOT NULL ,
+	bom_no               NUMBER(10) NOT NULL 
 );
 
 
 
 CREATE UNIQUE INDEX XPKBOM ON bom
-(pd_cd   ASC);
+(bom_no   ASC);
 
 
 
 ALTER TABLE bom
-	ADD CONSTRAINT  XPKBOM PRIMARY KEY (pd_cd);
+	ADD CONSTRAINT  XPKBOM PRIMARY KEY (bom_no);
 
 
 
@@ -542,11 +543,11 @@ CREATE TABLE mt_placeod
 (
 	mt_placeod_cd        VARCHAR2(100) NOT NULL ,
 	placeod_qt           NUMBER(10) NULL ,
-	placeod_reqdt        DATE NULL ,
+	placeod_reqdt        DATE DEFAULT SYSDATE   ,
 	placeod_compdt       DATE NULL ,
 	placeod_requester    VARCHAR2(50) NULL ,
 	placeod_chg          VARCHAR2(50) NULL ,
-	placeod_st           NUMBER(20) NULL ,
+	placeod_st           NUMBER(20) DEFAULT 1 ,
 	mt_cd                VARCHAR2(100) NOT NULL ,
 	cli_cd               VARCHAR2(100) NOT NULL 
 );

@@ -1,0 +1,55 @@
+create sequence SEQ_FCNONOP;
+
+-- INSPECTION 조인쿼리문
+SELECT   FINS.INS_CD,
+                F.FC_NAME,
+                FINS.INS_DT,
+                FINS.INS_CAT,
+               FINS.INS_CONT,
+                FINS.CC,
+               FINS. CHG,
+               FINS.FC_CD,
+                FINS.NONOP_CD
+	FROM FC_INS FINS JOIN FC F ON FINS.FC_CD = F.FC_CD;
+
+-- 점검 insert 쿼리문
+INSERT INTO fc_ins (
+                                    INS_CD,
+                                    INS_DT,
+                                    INS_CAT,
+                                    INS_CONT,
+                                    CC,
+                                    CHG,
+                                    FC_CD,
+                                    NONOP_CD) 
+VALUES                  ( 
+                                    SEQ_FCINSP.NEXTVAL,
+                                    '24/04/03',
+                                    1,
+                                    '입고 점검',
+                                    '적합',
+                                    '전문가',
+                                    '3',
+                                    '1');
+                                    
+-- 비가동 insert 쿼리문
+INSERT INTO nonop_mgmt (
+                                  NONOP_CD,
+                                NONOP_STT_TIME,
+                                NONOP_FN_TIME,
+                                FC_CHG,
+                                RSN,
+                                RSN_DESC,
+                                FC_CD) 
+VALUES                  ( 
+                                    SEQ_FCNONOP.NEXTVAL,
+                                    TO_DATE('24/04/03 12:25:24','yyyy-mm-dd HH24:Mi:ss' ),
+                                   TO_DATE('24/04/03 15:45:55','yyyy-mm-dd HH24:Mi:ss' ),
+                                    '전문가',
+                                    '점검',
+                                    '정기점검',
+                                    '3');
+                                    
+select * from nonop_mgmt;
+select * from fc_ins;
+commit;
