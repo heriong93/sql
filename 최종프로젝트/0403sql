@@ -4,12 +4,16 @@ create sequence SEQ_FCNONOP;
 SELECT   FINS.INS_CD,
                 F.FC_NAME,
                 FINS.INS_DT,
-                FINS.INS_CAT,
+                CASE WHEN  FINS.INS_CAT = 0 THEN '로스팅'
+                                                                    ELSE '포장'
+                END AS INS_CAT ,
                FINS.INS_CONT,
                 FINS.CC,
                FINS. CHG,
                FINS.FC_CD,
-                FINS.NONOP_CD
+                CASE WHEN FINS.NONOP_CD = 0 THEN '가동'
+                                                                        ELSE '비가동'
+                END AS NONOP_CD
 	FROM FC_INS FINS JOIN FC F ON FINS.FC_CD = F.FC_CD;
 
 -- 점검 insert 쿼리문
@@ -48,8 +52,102 @@ VALUES                  (
                                     '전문가',
                                     '점검',
                                     '정기점검',
-                                    '3');
+                                    '6');
                                     
 select * from nonop_mgmt;
 select * from fc_ins;
+select * from fc;
 commit;
+
+-- 비가동 조인쿼리문
+SELECT     	    M.NONOP_CD,
+                        F.FC_CD,
+                       F.FC_NAME,
+                        CASE WHEN F.ST = 0 THEN '가동'
+                                                        ELSE '비가동'
+                        END AS ST,
+                        CASE WHEN F.INS_MF = 0 THEN '로스팅'
+                                                                ELSE '포장'
+                        END AS INS_MF,
+                       F.MNF_COM,
+                       F.STR_DT,
+                       F.INS_CYCLE,
+                        F.LAST_INS_DT,
+                        F.OUTPUT,
+                        F.DUR_TIME
+	FROM FC F JOIN NONOP_MGMT M ON F.FC_CD = M.FC_CD;
+    
+    -- 설비 insert 쿼리문 
+    
+    SELECT     	FC_CD,
+				FC_NAME,
+				CASE WHEN ST = 0 THEN '가동'
+                                                ELSE '비가동'
+                END AS ST,
+				CASE WHEN INS_MF = 0 THEN '로스팅'
+                                                        ELSE '포장'
+                END AS INS_MF,
+				MNF_COM,
+				STR_DT,
+				INS_CYCLE,
+				LAST_INS_DT,
+				OUTPUT,
+				DUR_TIME
+	FROM FC;
+-- 비가동 설비 목록
+    SELECT     	FC_CD,
+                        FC_NAME,
+                        CASE WHEN ST = 0 THEN '가동'
+                                                        ELSE '비가동'
+                        END AS ST,
+                        CASE WHEN INS_MF = 0 THEN '로스팅'
+                                                                ELSE '포장'
+                        END AS INS_MF,
+                        MNF_COM,
+                        STR_DT,
+                        INS_CYCLE,
+                        LAST_INS_DT,
+                        OUTPUT,
+                        DUR_TIME
+	FROM FC
+    WHERE st = 1;
+    
+    SELECT   FINS.INS_CD,
+                F.FC_NAME,
+                FINS.INS_DT,
+                CASE WHEN  FINS.INS_CAT = 0 THEN '정기'
+                              WHEN  FINS.INS_CAT = 1 THEN '수기'
+                                            ELSE '기타'
+                END AS INS_CAT ,
+               FINS.INS_CONT,
+                FINS.CC,
+               FINS. CHG,
+               FINS.FC_CD,
+                CASE WHEN F.ST = 0 THEN '가동'
+                                                                        ELSE '비가동'
+                END AS ST
+	FROM FC_INS FINS JOIN FC F ON FINS.FC_CD = F.FC_CD;
+    
+    --비가동- 상태 변경TRIGGER
+    
+    CREATE TRIGGER change_st 
+    AFTER INSERT OR UPDATE ON NONOP_MNGT
+    FOR EACH ROW 
+    BEGIN 
+    UPDATE  FC 
+                        SET ST=NEW.ST;
+    END;
+    
+    --점검 -비가동 TRIGGER
+    
+    CREATE TRIGGER change_to_op 
+    AFTER INSERT OR UPDATE ON FC_INS
+    BEGIN 
+    IF :NEW.cc = '적합' THEN
+    UPDATE  FC 
+                        SET FC.ST=0
+                        WHERE fc_cd = :OLD.FC_CD;
+    END IF;
+    END;
+  
+  select * from fc where fc_cd = 3 and fc_name = 'W45';
