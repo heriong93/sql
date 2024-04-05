@@ -151,3 +151,24 @@ SELECT     	    M.NONOP_CD,
     END;
   
   select * from fc where fc_cd = 3 and fc_name = 'W45';
+  
+  	SELECT     	FC_CD,
+				FC_NAME,
+				CASE WHEN ST = 0 THEN '가동'
+                                                ELSE '비가동'
+                END AS ST,
+				CASE WHEN INS_MF = 0 THEN '로스팅'
+                                                        ELSE '포장'
+                END AS INS_MF,
+				MNF_COM,
+				STR_DT,
+				INS_CYCLE,
+				LAST_INS_DT,
+				OUTPUT,
+				DUR_TIME
+	FROM FC;
+    
+-- 스케줄러  설비 가동 처리용 
+UPDATE FC 
+SET ST = 0
+WHERE FC_CD = '1';
