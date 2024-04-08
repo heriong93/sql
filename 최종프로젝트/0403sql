@@ -164,6 +164,7 @@ SELECT     	    M.NONOP_CD,
 				STR_DT,
 				INS_CYCLE,
 				LAST_INS_DT,
+                LAST_INS_DT+ins_cycle as next_ins_dt,
 				OUTPUT,
 				DUR_TIME
 	FROM FC;
@@ -172,3 +173,19 @@ SELECT     	    M.NONOP_CD,
 UPDATE FC 
 SET ST = 0
 WHERE FC_CD = '1';
+
+SELECT   FINS.INS_CD,
+                F.FC_NAME,
+                FINS.INS_DT,
+                CASE WHEN  FINS.INS_CAT = 0 THEN '정기'
+                              WHEN  FINS.INS_CAT = 1 THEN '수기'
+                                            ELSE '기타'
+                END AS INS_CAT ,
+               FINS.INS_CONT,
+                FINS.CC,
+               FINS. CHG,
+               FINS.FC_CD,
+                CASE WHEN F.ST = 0 THEN '가동'
+                                                                        ELSE '비가동'
+                END AS ST
+	FROM FC_INS FINS JOIN FC F ON FINS.FC_CD = F.FC_CD;

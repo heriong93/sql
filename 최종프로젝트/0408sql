@@ -1,0 +1,137 @@
+select * from nonop_mgmt;
+select * from fc_ins;
+
+UPDATE NONOP_MNGT
+	SET NONOP_FN_TIME = SYSDATE
+	WHERE NONOP_CD =121;
+    
+INSERT INTO FC(
+                            FC_CD,
+                            FC_NAME,
+                            ST,
+                            INS_MF,
+                            MNF_COM,
+                            STR_DT,
+                            INS_CYCLE,
+                            OUTPUT,
+                            DUR_TIME
+                            )
+VALUES (
+                SEQ_FCLT.NEXTVAL,
+                'W45',
+                0,
+                0,
+                'Gisen',
+                '24/04/08',
+                60,
+                30,
+                35);
+                
+                INSERT INTO FC(
+                            FC_CD,
+                            FC_NAME,
+                            ST,
+                            INS_MF,
+                            MNF_COM,
+                            STR_DT,
+                            INS_CYCLE,
+                            OUTPUT,
+                            DUR_TIME
+                            )
+VALUES (
+                SEQ_FCLT.NEXTVAL,
+                'AB031',
+                0,
+                1,
+                '메가팩',
+                '24/04/02',
+                90,
+                30,
+                60);
+                
+                   INSERT INTO FC(
+                            FC_CD,
+                            FC_NAME,
+                            ST,
+                            INS_MF,
+                            MNF_COM,
+                            STR_DT,
+                            INS_CYCLE,
+                            OUTPUT,
+                            DUR_TIME
+                            )
+VALUES (
+                SEQ_FCLT.NEXTVAL,
+                'RoasterMaster 120',
+                0,
+                0,
+                'Buhler',
+                '24/04/02',
+                60,
+                30,
+                35);
+                
+                 INSERT INTO FC(
+                            FC_CD,
+                            FC_NAME,
+                            ST,
+                            INS_MF,
+                            MNF_COM,
+                            STR_DT,
+                            INS_CYCLE,
+                            OUTPUT,
+                            DUR_TIME
+                            )
+VALUES (
+                SEQ_FCLT.NEXTVAL,
+                'W60',
+                0,
+                0,
+                'Gisen',
+                '24/04/02',
+                30,
+                30,
+                25);
+                
+                   INSERT INTO FC(
+                            FC_CD,
+                            FC_NAME,
+                            ST,
+                            INS_MF,
+                            MNF_COM,
+                            STR_DT,
+                            INS_CYCLE,
+                            OUTPUT,
+                            DUR_TIME
+                            )
+VALUES (
+                SEQ_FCLT.NEXTVAL,
+                'DS-420AZ',
+                0,
+                1,
+                'DESSION',
+                '24/03/05',
+                120,
+                30,
+                60);
+                
+COMMIT;
+
+SELECT     	FC_CD,
+				FC_NAME,
+				CASE WHEN ST = 0 THEN '가동'
+                                                ELSE '비가동'
+                END AS ST,
+				CASE WHEN INS_MF = 0 THEN '로스팅'
+                                                        ELSE '포장'
+                END AS INS_MF,
+				MNF_COM,
+				STR_DT,
+				INS_CYCLE,
+				LAST_INS_DT,
+				CASE WHEN LAST_INS_DT IS NULL THEN STR_DT+INS_CYCLE  
+                ELSE LAST_INS_DT+INS_CYCLE
+                END AS NEXT_INS_DT,
+				OUTPUT,
+				DUR_TIME
+	FROM FC;
