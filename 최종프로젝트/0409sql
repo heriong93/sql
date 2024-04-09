@@ -1,0 +1,44 @@
+SELECT     	FC_CD,
+				FC_NAME,
+				CASE WHEN ST = 0 THEN '가동'
+                                                ELSE '비가동'
+                END AS ST,
+				CASE WHEN INS_MF = 0 THEN '로스팅'
+                                                        ELSE '포장'
+                END AS INS_MF,
+				MNF_COM,
+				STR_DT,
+				INS_CYCLE,
+				LAST_INS_DT,
+				CASE WHEN LAST_INS_DT IS NULL THEN STR_DT+INS_CYCLE  
+                ELSE LAST_INS_DT+INS_CYCLE
+                END AS NEXT_INS_DT,
+				OUTPUT,
+				DUR_TIME
+	FROM FC
+    WHERE FC_NAME = '';
+    
+    SELECT     	FC_CD,
+				FC_NAME,
+				CASE WHEN ST = 0 THEN '가동'
+                                                ELSE '비가동'
+                END AS ST,
+				CASE WHEN INS_MF = 0 THEN '로스팅'
+                                                        ELSE '포장'
+                END AS INS_MF,
+				MNF_COM,
+				STR_DT,
+				INS_CYCLE,
+				LAST_INS_DT,
+				CASE WHEN LAST_INS_DT IS NULL THEN STR_DT+INS_CYCLE  
+                ELSE LAST_INS_DT+INS_CYCLE
+                END AS NEXT_INS_DT,
+				OUTPUT,
+				DUR_TIME
+	FROM FC
+
+ WHERE fc_name LIKE '%' || 'w' || '%'
+
+AND ins_mf = '0'	
+
+AND st = '가동';
