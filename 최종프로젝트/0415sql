@@ -1,0 +1,52 @@
+insert into com_cd (wk_cd_no, cd_name)
+values( 'ins_mf', '투입 공정');
+insert into com_detail_cd (wk_cd_no, detail_cd_no, detail_cd_name )
+values( 'ins_mf', 0, '로스팅');
+insert into com_detail_cd (wk_cd_no, detail_cd_no, detail_cd_name )
+values( 'ins_mf', 1, '포장');
+
+insert into com_cd (wk_cd_no, cd_name)
+values( 'st', '설비 상태');
+insert into com_detail_cd (wk_cd_no, detail_cd_no, detail_cd_name )
+values( 'st', 0, '가동');
+insert into com_detail_cd (wk_cd_no, detail_cd_no, detail_cd_name )
+values( 'st', 1, '비가동');
+
+insert into com_cd (wk_cd_no, cd_name)
+values( 'INS_CAT', '점검 구분');
+insert into com_detail_cd (wk_cd_no, detail_cd_no, detail_cd_name )
+values( 'INS_CAT', 0, '정기');
+insert into com_detail_cd (wk_cd_no, detail_cd_no, detail_cd_name )
+values( 'INS_CAT', 1, '수시');
+insert into com_detail_cd (wk_cd_no, detail_cd_no, detail_cd_name )
+values( 'INS_CAT', 2, '기타');
+commit;
+
+create sequence SEQ_ENTER;
+insert into enter (ENTER_CD
+                               ,ID
+                                ,PW
+                                ,BUSSNO
+                                ,ENTER_NAME
+                                ,CHG
+                                ,MAIL
+                                ,CEO
+                                ,AUTH_NO)
+VALUES (SEQ_ENTER.NEXTVAL,
+                'admin',
+                'admin',
+                '1234567891',
+                '대기업',
+                '대리인',
+                'bigcompany@gmail.com',
+                '사장님',
+                9);
+                
+INSERT INTO AUTH (AUTH_NO
+                                ,AUTH_LVL
+                                ,AUTH_NAME)
+VALUES (SEQ_AUTH.NEXTVAL,
+                3,
+                'fcltemp');
+                
+commit;         

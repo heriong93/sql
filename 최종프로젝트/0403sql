@@ -1,4 +1,5 @@
-create sequence SEQ_FCNONOP;
+create sequence SEQ_EMP;
+drop sequence SEQ_ENTER;
 
 -- INSPECTION 조인쿼리문
 SELECT   FINS.INS_CD,

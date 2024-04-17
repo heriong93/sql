@@ -1,0 +1,35 @@
+select * from enter;
+create sequence SEQ_ENTER;
+drop sequence SEQ_ENTER;
+
+SELECT  e.EMP_NO,
+			e.ID,
+			'{noop}' || e.pw as pw,
+			e.NAME,
+			e.TEL,
+			e.ENTER_CD,
+			e.AUTH_NO,
+            'ROLE_' || upper(a.auth_name) as AUTH_NAME,
+			e.DPT
+	FROM EMP e
+    JOIN
+		AUTH a ON e.AUTH_NO = a.auth_No
+    WHERE id= 'fclt1';
+    
+    
+    -- view 만들기
+    CREATE OR REPLACE FORCE VIEW login_view AS
+(
+SELECT 'A1' gb, id, pw, name, lecturer_num mem_num
+FROM lecturer
+UNION ALL
+SELECT 'D1' gb, Id, pw, name, mem_num
+FROM mem
+WHERE MEM_FG_CD = 'b1'
+UNION ALL
+SELECT 'D2' gb, Id, pw, name, mem_num
+FROM mem
+WHERE MEM_FG_CD = 'b2'
+);
+
+select * from mem_view;

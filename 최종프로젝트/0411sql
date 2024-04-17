@@ -1,0 +1,12 @@
+SELECT  ENTER_CD,
+                ID,
+                PW,
+                BUSSNO,
+                ENTER_NAME,
+                CHG,
+                MAIL,
+                CEO,
+                AUTH_NO,
+                ST
+FROM ENTER;
+  
