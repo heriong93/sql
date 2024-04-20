@@ -16,20 +16,121 @@ SELECT  e.EMP_NO,
 		AUTH a ON e.AUTH_NO = a.auth_No
     WHERE id= 'fclt1';
     
+    SELECT * FROM login_view;
     
     -- view 만들기
     CREATE OR REPLACE FORCE VIEW login_view AS
 (
-SELECT 'A1' gb, id, pw, name, lecturer_num mem_num
-FROM lecturer
+SELECT 'ENTER' gb, 
+                            ID,
+                            PW,
+                            BUSSNO,
+                            ENTER_NAME,
+                            CHG,
+                            MAIL,
+                            CEO,
+                            AUTH_NO,
+                            ST
+FROM ENTER
 UNION ALL
-SELECT 'D1' gb, Id, pw, name, mem_num
-FROM mem
-WHERE MEM_FG_CD = 'b1'
-UNION ALL
-SELECT 'D2' gb, Id, pw, name, mem_num
-FROM mem
-WHERE MEM_FG_CD = 'b2'
+SELECT 'EMP' gb,
+                        ID,
+                        PW,
+                        NAME,
+                        TEL,
+                        ENTER_CD,
+                        AUTH_NO,
+                        DPT
+FROM EMP
+WHERE ENTER_CD = '2'
 );
 
-select * from mem_view;
+
+SELECT   FINS.INS_CD,
+                F.FC_NAME,
+                FINS.INS_DT,
+                FINS.INS_CAT,
+               FINS.INS_CONT,
+                FINS.CC,
+               FINS. CHG,
+               FINS.FC_CD
+	FROM FC_INS FINS JOIN FC F ON FINS.FC_CD = F.FC_CD
+	where FINS.ins_cd = 201
+	 ORDER BY FINS.INS_DT;
+     
+     CREATE VIEW USER_VIEW AS
+SELECT 
+    'ENTER' AS TABLE_NAME,
+    e.ENTER_CD AS ID,
+    e.ID AS USERNAME,
+    '{noop}' || e.pw AS PASSWORD,
+    e.ENTER_NAME AS NAME,
+    e.BUSSNO AS TEL,
+    null as DPT,
+    e.CHG AS CONTACT_PERSON,
+    e.MAIL AS EMAIL,
+    e.CEO AS CEO,
+    e.AUTH_NO AS AUTHORITY,
+    'ROLE_' || upper(a.auth_name) AS AUTH_NAME,
+    e.ST AS STATUS
+FROM 
+    ENTER e
+JOIN
+    AUTH a ON e.AUTH_NO = a.auth_No
+
+UNION
+
+SELECT 
+    'EMP' AS TABLE_NAME,
+    e.EMP_NO AS ID,
+    e.ID AS USERNAME,
+    '{noop}' || e.pw AS PASSWORD,
+    e.NAME AS NAME,
+    e.TEL AS TEL,
+    e.DPT AS DPT,
+    null as CONTACT_PERSON,
+    null as EMAIL,
+    null as CEO,
+    e.AUTH_NO AS AUTHORITY,
+    'ROLE_' || upper(a.auth_name) AS AUTH_NAME,
+    null AS STATUS
+FROM 
+    EMP e
+JOIN
+    AUTH a ON e.AUTH_NO = a.auth_No;
+
+
+-- VIEW TABLE JOIN
+   CREATE OR REPLACE VIEW combined_view AS
+SELECT
+    'EMP' AS MEM_TYPE,
+    emp.ID AS id,
+   '{noop}' || emp.pw AS pw,
+    emp.name AS name,
+    emp.TEL AS tel,
+    emp.DPT AS dpt,
+    emp.AUTH_NO AS auth_no,
+    'ROLE_' || upper(a_emp.auth_name) AS auth_name
+FROM EMP emp
+JOIN AUTH a_emp ON emp.AUTH_NO = a_emp.AUTH_NO
+
+UNION ALL
+
+SELECT
+    'ENTER' AS MEM_TYPE,
+    enter.ID AS id,
+    '{noop}' || enter.pw AS pw,
+    enter.chg AS name,
+    NULL AS tel, 
+  CASE 
+        WHEN a_enter.auth_no = 1 THEN '관리자'
+        ELSE '기업회원'
+    END AS dpt,
+    enter.AUTH_NO AS auth_no,
+    'ROLE_' || upper(a_enter.auth_name) AS auth_name
+FROM ENTER enter
+JOIN AUTH a_enter ON enter.AUTH_NO = a_enter.AUTH_NO;
+commit;
+select * from combined_view
+where id = 'fclt1';
+

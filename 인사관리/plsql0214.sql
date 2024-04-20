@@ -17,6 +17,16 @@ SET SERVEROUTPUT ON;
         WHERE employee_id = 3000;
  END;
  /
+ 
+ ACCEPT p_annual_sal PROMPT 'Please enter the annual salary:' 
+ DECLARE 
+ v_sal NUMBER (9,2) := &p_annual_sal;
+ BEGIN
+ v_sal := v_sal/12;
+ DBMS_OUTPUT.PUT_LINE('The monthly salary is' || TO_CHAR (v_sal);
+ 
+END;
+/
  --다시 되돌리는 것 
  ROLLBACK;
  
@@ -45,6 +55,24 @@ SET SERVEROUTPUT ON;
  사원번호, 사원이름, 부서이름을 
  출력하는 PL/SQL을 작성하시오 */
  
+ ------집에서 해봄
+ 
+ DECLARE 
+    v_eid               employees.employee_id%TYPE;
+    v_ename         employees.last_name%TYPE;
+    v_depname     departments.department_name%TYPE;
+ BEGIN 
+     SELECT employee_id, last_name, department_name
+     INTO v_eid, v_ename, v_depname
+    FROM employees  JOIN departments  
+    ON employees.department_id =departments.department_id
+    WHERE employee_id =  &사원번호;
+    
+    DBMS_OUTPUT.PUT_LINE(v_eid || v_ename || v_depname);
+    
+ END;
+ /
+ ------
  SELECT * FROM employees;
   SELECT * FROM departments;
 
@@ -86,7 +114,23 @@ SET SERVEROUTPUT ON;
  사원이름,급여,연봉-> (급여*12 (nvl(급여,0) *nvl (커미션퍼센트,0) *12)
  을 출력하는 PL/SQL을 작성하시오 */
 
+ ----집에서 해봄 
+
  
+ DECLARE 
+ v_eid          employees.last_name%TYPE;
+ v_sal          employees.salary%TYPE;
+ v_ansal        v_sal%TYPE;
+ BEGIN 
+  SELECT last_name, salary, (salary*12+(NVL(salary,0)*NVL(commission_pct,0))*12) as ansal
+  INTO v_eid, v_sal, v_ansal
+ FROM employees 
+ WHERE employee_id = &사원번호;
+ 
+ DBMS_OUTPUT.PUT_LINE(v_eid || v_sal || v_ansal);
+ END;
+ /
+ -------
  DECLARE
         v_empname   employees.last_name%TYPE;
         v_salary         employees.salary%TYPE;
@@ -125,7 +169,8 @@ SET SERVEROUTPUT ON;
     FROM employees;
 --복사 테이블 조회
     SELECT * 
-    FROM test_employees;
+    FROM test_employees
+    where employee_id = 130;
     
 ROLLBACK;
  --기본 IF문
@@ -160,7 +205,7 @@ ROLLBACK;
  
  --IF ~ ELSEIF ~ ELSE문 : 다중 조건식이 필요, 각각 결과처리 
  --연차를 구하는 공식
- SELECT employee_id, TRUNC (MONTHS_BETWEEN(sysdate, hire_date) /12) 
+ SELECT employee_id, TRUNC (MONTHS_BETWEEN(sysdate, hire_date) /12) AS year
  FROM employees;
  
  DECLARE
@@ -193,7 +238,7 @@ ROLLBACK;
  
  
  --1)sql문 작성 교수님 버전
- SELECT TO_CHAR(hire_date, 'yyyy')
+ SELECT TO_CHAR(hire_date, 'YYYY')
  FROM employees
  WHERE employee_id = &사원번호;
  
@@ -361,7 +406,7 @@ END;
  --WHILE LOOP문
  
  DECLARE
-    v_num NUMBER (38,0) := 10;
+    v_num NUMBER (38,0) := 1;
  BEGIN
     WHILE v_num < 5 LOOP --반복조건 
     DBMS_OUTPUT.PUT_LINE(v_num);

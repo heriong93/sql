@@ -155,6 +155,7 @@ DECLARE
         v_total  NUMBER(3);
 BEGIN 
         LOOP --단
+        v_num := 1;
          IF  MOD (v_dan, 2) <> 0 THEN  -- <> 는 != 과 같은 표현 // 
             v_num := 1;
             LOOP 
@@ -176,10 +177,12 @@ DECLARE
         v_total  NUMBER(3);
 BEGIN 
  FOR dan IN 1 .. 9 LOOP --곱하는 수: 1~9, 정수
+
   IF  MOD (dan, 2) = 0 THEN  -- <> 는 != 과 같은 표현 // 
             CONTINUE;
             END IF;
-    FOR num IN 2..9 LOOP  --단: 2~9,정수
+    FOR num IN 1..9 LOOP  --단: 2~9,정수
+        
             DBMS_OUTPUT.PUT_LINE(dan || ' * ' || num || ' = ' || v_total);
                 v_total := dan * num;
             END LOOP;
